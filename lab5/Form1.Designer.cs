@@ -100,7 +100,7 @@ namespace lab5
             // 
             this.kompresjaToolStripMenuItem.CheckOnClick = true;
             this.kompresjaToolStripMenuItem.Name = "kompresjaToolStripMenuItem";
-            this.kompresjaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.kompresjaToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.kompresjaToolStripMenuItem.Text = "Kompresja";
             this.kompresjaToolStripMenuItem.Click += new System.EventHandler(this.kompresjaToolStripMenuItem_Click);
             // 
@@ -108,7 +108,7 @@ namespace lab5
             // 
             this.szyfrowanieToolStripMenuItem.CheckOnClick = true;
             this.szyfrowanieToolStripMenuItem.Name = "szyfrowanieToolStripMenuItem";
-            this.szyfrowanieToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.szyfrowanieToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.szyfrowanieToolStripMenuItem.Text = "Szyfrowanie";
             this.szyfrowanieToolStripMenuItem.Click += new System.EventHandler(this.szyfrowanieToolStripMenuItem_Click);
             // 
@@ -133,7 +133,6 @@ namespace lab5
             this.pathTextBox.Name = "pathTextBox";
             this.pathTextBox.Size = new System.Drawing.Size(665, 20);
             this.pathTextBox.TabIndex = 3;
-            this.pathTextBox.TextChanged += new System.EventHandler(this.pathTextBox_TextChanged);
             // 
             // label1
             // 
@@ -152,7 +151,7 @@ namespace lab5
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(75, 20);
             this.searchButton.TabIndex = 5;
-            this.searchButton.Text = "Szukaj";
+            this.searchButton.Text = "Przeglądaj";
             this.searchButton.UseVisualStyleBackColor = true;
             this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
             // 

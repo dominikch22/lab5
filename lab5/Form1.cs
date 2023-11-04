@@ -15,12 +15,12 @@ namespace lab5
 {
     public partial class Form1 : Form
     {
-        private bool compression = false;
-        private bool encryption = false;
+        private TextEditor TextEditor;
 
         public Form1()
         {
             InitializeComponent();
+            TextEditor = new TextEditor(false, false, "1234");
         }
 
         private void koniecToolStripMenuItem_Click(object sender, EventArgs e)
@@ -30,110 +30,26 @@ namespace lab5
 
         private void zapiszToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveToFile(editField.Text, pathTextBox.Text);
-        }
-
-        private void saveToFile(string text, string path)
-        {
             try
             {
-                using (FileStream file = new FileStream(path, FileMode.Create))
-                {
-                    Stream finalStream = file;
-                    if (encryption)
-                    {
-                        using (SHA256 sha = SHA256.Create())
-                        {
-                            using (Aes aesAlg = Aes.Create())
-                            {
-                                byte[] IV = new byte[aesAlg.BlockSize / 8]; ;
-                                byte[] Key = Encoding.UTF8.GetBytes("YourEncryptionKey");
-                                byte[] hashKey = sha.ComputeHash(Key);
-                                aesAlg.Key = hashKey;
-                                aesAlg.IV = IV;
-                                ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
-
-                                finalStream = new CryptoStream(finalStream, encryptor, CryptoStreamMode.Write);
-                            }
-                        }
-                    }
-
-                    if (compression)
-                    {
-                        finalStream = new GZipStream(finalStream, CompressionMode.Compress);
-                    }
-
-                    byte[] bytes = Encoding.UTF8.GetBytes(text); ;
-                    finalStream.Write(bytes, 0, bytes.Length);
-                    finalStream.Dispose();
-                }
+                TextEditor.saveToFile(editField.Text, pathTextBox.Text);
             }
-            catch { 
-                
-            }
-            
-
-        }
-        
-
-        private String readFile(string path)
-        {
-            byte[] buffer;
-            try
+            catch (Exception ex)
             {
-                using (FileStream file = new FileStream(path, FileMode.Open, FileAccess.Read))
-                {
-                    Stream finalStream = file;
-                    if (encryption)
-                    {
-                        using (SHA256 sha = SHA256.Create())
-                        {
-                            using (Aes aesAlg = Aes.Create())
-                            {
-                                byte[] IV = new byte[aesAlg.BlockSize / 8]; ;
-                                byte[] Key = Encoding.UTF8.GetBytes("YourEncryptionKey");
-                                byte[] hashKey = sha.ComputeHash(Key);
-                                aesAlg.Key = hashKey;
-                                aesAlg.IV = IV;
-                                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-
-                                finalStream = new CryptoStream(finalStream, decryptor, CryptoStreamMode.Read);
-                            }
-                        }
-                    }
-
-                    if (compression)
-                    {
-                        finalStream = new GZipStream(finalStream, CompressionMode.Decompress);
-                    }
-
-                    using (MemoryStream output = new MemoryStream())
-                    {
-                        try
-                        {
-                            finalStream.CopyTo(output);
-                            buffer = output.ToArray();
-                        }
-                        catch
-                        {
-                            return "Nie można odczytać pliku";
-                        }
-
-                    }
-                    finalStream.Dispose();
-                }
+                MessageBox.Show(ex.Message, "Błąd", MessageBoxButtons.OK);
             }
-            catch {
-                return "Nie można odczytać pliku";
-            }
-           
-
-            return Encoding.UTF8.GetString(buffer);
         }
 
         private void odczytajToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            editField.Text = readFile(pathTextBox.Text);
+            try
+            {
+                editField.Text = TextEditor.readFile(pathTextBox.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Błąd", MessageBoxButtons.OK);
+            }
         }
 
         private void oDekoratorachToolStripMenuItem_Click(object sender, EventArgs e)
@@ -147,21 +63,11 @@ namespace lab5
 
         }
 
-        private void openFileDialog2_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void pathTextBox_TextChanged(object sender, EventArgs e)
-        {         
-        }
-
         private void searchButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
             openFileDialog.InitialDirectory = "C:\\";
-            //openFileDialog.Filter = "All Files (*.*)|*.*"; 
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -172,14 +78,12 @@ namespace lab5
 
         private void kompresjaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //kompresjaToolStripMenuItem.Checked = !kompresjaToolStripMenuItem.Checked;
-            compression = kompresjaToolStripMenuItem.Checked;
+            TextEditor.Compression = kompresjaToolStripMenuItem.Checked;
         }
 
         private void szyfrowanieToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //szyfrowanieToolStripMenuItem.Checked = !szyfrowanieToolStripMenuItem.Checked;
-            encryption = szyfrowanieToolStripMenuItem.Checked;
+            TextEditor.Encryption = szyfrowanieToolStripMenuItem.Checked;
         }
     }
 }
