@@ -42,6 +42,9 @@ namespace lab5
             this.pathTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.searchButton = new System.Windows.Forms.Button();
+            this.passwordTextBox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.setPasswordButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -155,11 +158,41 @@ namespace lab5
             this.searchButton.UseVisualStyleBackColor = true;
             this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
             // 
+            // passwordTextBox
+            // 
+            this.passwordTextBox.Location = new System.Drawing.Point(157, 1);
+            this.passwordTextBox.Name = "passwordTextBox";
+            this.passwordTextBox.Size = new System.Drawing.Size(100, 20);
+            this.passwordTextBox.TabIndex = 6;
+            this.passwordTextBox.UseSystemPasswordChar = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(115, 4);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(36, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Klucz:";
+            // 
+            // setPasswordButton
+            // 
+            this.setPasswordButton.Location = new System.Drawing.Point(263, 0);
+            this.setPasswordButton.Name = "setPasswordButton";
+            this.setPasswordButton.Size = new System.Drawing.Size(75, 23);
+            this.setPasswordButton.TabIndex = 8;
+            this.setPasswordButton.Text = "Ustaw";
+            this.setPasswordButton.UseVisualStyleBackColor = true;
+            this.setPasswordButton.Click += new System.EventHandler(this.setPasswordButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.setPasswordButton);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.passwordTextBox);
             this.Controls.Add(this.searchButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pathTextBox);
@@ -190,6 +223,9 @@ namespace lab5
         private System.Windows.Forms.TextBox pathTextBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button searchButton;
+        private System.Windows.Forms.TextBox passwordTextBox;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button setPasswordButton;
     }
 }
 

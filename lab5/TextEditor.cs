@@ -14,6 +14,25 @@ namespace lab5
         public bool Compression = false;
         public bool Encryption = false;
         private byte[] HashedKey;
+        public string Key
+        {
+            get
+            {
+                return Encoding.UTF8.GetString(HashedKey);
+            }
+            set
+            {
+                byte[] keyBytes = Encoding.UTF8.GetBytes(value);
+                using (SHA256 sha = SHA256.Create())
+                {
+                    HashedKey = sha.ComputeHash(keyBytes);
+                }
+                aes = Aes.Create();
+
+                aes.Key = HashedKey;
+                aes.IV = new byte[aes.BlockSize / 8];
+            }
+        }
         private Aes aes;
 
         public TextEditor(bool compression, bool encryption, string key)
@@ -21,7 +40,9 @@ namespace lab5
             Compression = compression;
             Encryption = encryption;
 
-            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+            Key = key;
+
+          /*  byte[] keyBytes = Encoding.UTF8.GetBytes(key);
             using (SHA256 sha = SHA256.Create())
             {
                 HashedKey = sha.ComputeHash(keyBytes);
@@ -29,7 +50,7 @@ namespace lab5
             aes = Aes.Create();
 
             aes.Key = HashedKey;
-            aes.IV = new byte[aes.BlockSize / 8];
+            aes.IV = new byte[aes.BlockSize / 8];*/
         }
 
         public void saveToFile(string text, string path)

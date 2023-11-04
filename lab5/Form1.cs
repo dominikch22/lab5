@@ -20,7 +20,7 @@ namespace lab5
         public Form1()
         {
             InitializeComponent();
-            TextEditor = new TextEditor(false, false, "1234");
+            TextEditor = new TextEditor(false, false, "");
         }
 
         private void koniecToolStripMenuItem_Click(object sender, EventArgs e)
@@ -84,6 +84,12 @@ namespace lab5
         private void szyfrowanieToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TextEditor.Encryption = szyfrowanieToolStripMenuItem.Checked;
+        }
+
+        private void setPasswordButton_Click(object sender, EventArgs e)
+        {
+            TextEditor.Key = passwordTextBox.Text;
+            passwordTextBox.Text = "";
         }
     }
 }
