@@ -15,12 +15,12 @@ namespace lab5
 {
     public partial class Form1 : Form
     {
-        private TextEditor TextEditor;
+        private FileEditor TextEditor;
 
         public Form1()
         {
             InitializeComponent();
-            TextEditor = new TextEditor(false, false, "");
+            TextEditor = new FileEditor(false, false, "");
         }
 
         private void koniecToolStripMenuItem_Click(object sender, EventArgs e)

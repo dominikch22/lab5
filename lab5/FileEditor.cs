@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace lab5
 {
-    class TextEditor
+    class FileEditor
     {
         public bool Compression = false;
         public bool Encryption = false;
@@ -35,44 +35,35 @@ namespace lab5
         }
         private Aes aes;
 
-        public TextEditor(bool compression, bool encryption, string key)
+        public FileEditor(bool compression, bool encryption, string key)
         {
             Compression = compression;
             Encryption = encryption;
 
             Key = key;
-
-          /*  byte[] keyBytes = Encoding.UTF8.GetBytes(key);
-            using (SHA256 sha = SHA256.Create())
-            {
-                HashedKey = sha.ComputeHash(keyBytes);
-            }
-            aes = Aes.Create();
-
-            aes.Key = HashedKey;
-            aes.IV = new byte[aes.BlockSize / 8];*/
+        
         }
 
         public void saveToFile(string text, string path)
         {
             using (FileStream file = new FileStream(path, FileMode.Create))
             {
-                Stream finalStream = file;
+                Stream intermediateStream = file;
                 if (Encryption)
                 {
                     ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
 
-                    finalStream = new CryptoStream(finalStream, encryptor, CryptoStreamMode.Write);
+                    intermediateStream = new CryptoStream(intermediateStream, encryptor, CryptoStreamMode.Write);
                 }
 
                 if (Compression)
                 {
-                    finalStream = new GZipStream(finalStream, CompressionMode.Compress);
+                    intermediateStream = new GZipStream(intermediateStream, CompressionMode.Compress);
                 }
 
                 byte[] bytes = Encoding.UTF8.GetBytes(text); ;
-                finalStream.Write(bytes, 0, bytes.Length);
-                finalStream.Dispose();
+                intermediateStream.Write(bytes, 0, bytes.Length);
+                intermediateStream.Dispose();
             }
         }
 
@@ -82,25 +73,25 @@ namespace lab5
 
             using (FileStream file = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                Stream finalStream = file;
+                Stream intermediateStream = file;
                 if (Encryption)
                 {
                     ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
 
-                    finalStream = new CryptoStream(finalStream, decryptor, CryptoStreamMode.Read);
+                    intermediateStream = new CryptoStream(intermediateStream, decryptor, CryptoStreamMode.Read);
                 }
 
                 if (Compression)
                 {
-                    finalStream = new GZipStream(finalStream, CompressionMode.Decompress);
+                    intermediateStream = new GZipStream(intermediateStream, CompressionMode.Decompress);
                 }
 
                 using (MemoryStream output = new MemoryStream())
                 {
-                    finalStream.CopyTo(output);
+                    intermediateStream.CopyTo(output);
                     buffer = output.ToArray();
                 }
-                finalStream.Dispose();
+                intermediateStream.Dispose();
             }
 
 
