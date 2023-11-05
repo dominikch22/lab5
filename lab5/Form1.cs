@@ -52,11 +52,6 @@ namespace lab5
             }
         }
 
-        private void oDekoratorachToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-            sender.ToString();
-        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
